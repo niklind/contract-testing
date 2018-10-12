@@ -55,16 +55,10 @@
             <version>5.2.0</version>
             <scope>test</scope>
         </dependency>
-		<dependency>
-			<groupId>au.com.dius</groupId>
-			<artifactId>pact-jvm-provider-junit5_2.12</artifactId>
-			<version>3.5.21</version>
-			<scope>test</scope>
-		</dependency>
         <dependency>
             <groupId>au.com.dius</groupId>
             <artifactId>pact-jvm-provider-spring_2.12</artifactId>
-            <version>3.5.21</version>
+            <version>3.5.23</version>
             <scope>test</scope>
         </dependency>
 	</dependencies>
@@ -85,6 +79,18 @@
 						<version>${junit.platform.version}</version>
 					</dependency>
 				</dependencies>
+                <configuration>
+                    <systemProperties>
+                        <property>
+                            <name>pact.provider.version</name>
+                            <value>${project.version}</value>
+                        </property>
+                        <property>
+                            <name>pact.verifier.publishResults</name>
+                            <value>true</value>
+                        </property>
+                    </systemProperties>
+                </configuration>
 			</plugin>
 		</plugins>
 	</build>

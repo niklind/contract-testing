@@ -8,6 +8,8 @@ import au.com.dius.pact.model.RequestResponsePact;
 import org.apache.http.entity.ContentType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.converter.json.GsonHttpMessageConverter;
 
 import static io.pactfoundation.consumer.dsl.LambdaDsl.newJsonBody;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -27,8 +29,8 @@ public class UserClientContractTest {
         return builder
                 .given("No user with email 'user@test.com' exists")
                 .uponReceiving("Create new user")
-                    .path("/")
                     .method("POST")
+                    .path("/")
                     .body(EXPECTED_BODY, ContentType.APPLICATION_JSON)
                 .willRespondWith()
                     .status(200)
@@ -43,13 +45,17 @@ public class UserClientContractTest {
     @Test
     void test(MockServer mockServer) {
         String url = mockServer.getUrl();
-        UserClient userClient = new UserClient();
-
+        UserClient userClient = createUserClient();
         User userToCreate = new User("User", "user@test.com");
 
         User createdUser = userClient.post(url, userToCreate);
 
         assertNotNull(createdUser);
+    }
+
+    UserClient createUserClient() {
+        RestTemplateBuilder restTemplateBuilder = new RestTemplateBuilder().messageConverters(new GsonHttpMessageConverter());
+        return new UserClient(restTemplateBuilder);
     }
 
 }

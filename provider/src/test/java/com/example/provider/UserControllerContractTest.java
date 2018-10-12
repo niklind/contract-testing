@@ -3,7 +3,7 @@ package com.example.provider;
 import au.com.dius.pact.provider.junit.Provider;
 import au.com.dius.pact.provider.junit.RestPactRunner;
 import au.com.dius.pact.provider.junit.State;
-import au.com.dius.pact.provider.junit.loader.PactFolder;
+import au.com.dius.pact.provider.junit.loader.PactBroker;
 import au.com.dius.pact.provider.junit.target.TestTarget;
 import au.com.dius.pact.provider.spring.target.MockMvcTarget;
 import org.junit.Before;
@@ -12,7 +12,7 @@ import org.mockito.InjectMocks;
 
 @RunWith(RestPactRunner.class)
 @Provider("provider")
-@PactFolder("pacts")
+@PactBroker(protocol = "http", host = "localhost", port = "80")
 @SuppressWarnings("squid:S2187")
 public class UserControllerContractTest {
 
